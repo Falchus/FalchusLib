@@ -99,6 +99,7 @@
         <excludes>
           <exclude>**/*.java</exclude>
         </excludes>
+        <filtering>true</filtering>
       </resource>
     </resources>
     <finalName>FalchusLib</finalName>

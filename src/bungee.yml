@@ -1,4 +1,6 @@
 name: FalchusLib
-version: 1.0
+version: ${project.version}
+description: A simple library.
 main: com.falchus.lib.minecraft.bungee.FalchusLibMinecraftBungee
 author: Falchus
+website: lib.falchus.com
