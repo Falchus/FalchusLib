@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 public class Contexts {
 	
 	LabyModMessageListener labyModMessageListener;
+	ChunkUnloadListener chunkUnloadListener;
 	EntityPlayerListener entityPlayerListener;
 	FreezeListener freezeListener;
 	ItemListener itemListener;
@@ -25,6 +26,7 @@ public class Contexts {
 	
 	public void init() {
 		labyModMessageListener = new LabyModMessageListener();
+		chunkUnloadListener = new ChunkUnloadListener();
 		entityPlayerListener = new EntityPlayerListener();
 		freezeListener = new FreezeListener();
 		itemListener = new ItemListener();
