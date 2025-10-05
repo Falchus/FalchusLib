@@ -1,0 +1,6 @@
+name: FalchusLib
+version: 1.0
+main: com.falchus.lib.minecraft.spigot.FalchusLibMinecraftSpigot
+author: Falchus
+
+softdepend: [LuckPerms]

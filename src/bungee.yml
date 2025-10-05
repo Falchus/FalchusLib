@@ -1,0 +1,4 @@
+name: FalchusLib
+version: 1.0
+main: com.falchus.lib.minecraft.bungee.FalchusLibMinecraftBungee
+author: Falchus
