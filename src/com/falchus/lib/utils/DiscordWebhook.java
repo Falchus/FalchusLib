@@ -12,6 +12,7 @@ import lombok.experimental.UtilityClass;
  * Utility class for sending messages to Discord webhooks.
  */
 @UtilityClass
+@Deprecated
 public class DiscordWebhook {
 
 	/**
