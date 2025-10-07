@@ -14,8 +14,7 @@ public class ItemAppearAnimation extends InventoryOpenAnimation {
 	}
 	
 	@Override
-	protected void animate(Player player, Inventory inventory) {
-		ItemStack[] items = inventory.getContents();
+	protected void animate(Player player, Inventory inventory, ItemStack[] items) {
 		for (int i = 0; i < items.length; i++) {
 			ItemStack item = items[i];
 			if (item != null) {

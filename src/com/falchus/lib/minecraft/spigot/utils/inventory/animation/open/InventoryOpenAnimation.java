@@ -3,6 +3,7 @@ package com.falchus.lib.minecraft.spigot.utils.inventory.animation.open;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import com.falchus.lib.minecraft.spigot.FalchusLibMinecraftSpigot;
 
@@ -18,15 +19,17 @@ public abstract class InventoryOpenAnimation {
 	 * Called to implement animation logic.
 	 * This will be scheduled automatically after delayTicks.
 	 */
-	protected abstract void animate(Player player, Inventory inventory);
+	protected abstract void animate(Player player, Inventory inventory, ItemStack[] items);
 	
 	/**
 	 * Plays the animation with automatic scheduling using delayTicks.
 	 */
 	public final void play(Player player, Inventory inventory) {
+		ItemStack[] items = inventory.getContents();
+		inventory.clear();
+		
 		Bukkit.getScheduler().runTaskLater(plugin, () -> {
-			inventory.clear();
-			animate(player, inventory);
+			animate(player, inventory, items);
 		}, delayTicks);
     }
 }
