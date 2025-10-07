@@ -1,5 +1,8 @@
 package com.falchus.lib.minecraft.spigot.utils.inventory.animation.open;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -14,6 +17,7 @@ public abstract class InventoryOpenAnimation {
 	
 	protected final FalchusLibMinecraftSpigot plugin = FalchusLibMinecraftSpigot.getInstance();
 	protected int delayTicks = 1;
+	protected List<ItemStack> excludedItems = new ArrayList<>();
 	
 	/**
 	 * Called to implement animation logic.
@@ -26,7 +30,14 @@ public abstract class InventoryOpenAnimation {
 	 */
 	public final void play(Player player, Inventory inventory) {
 		ItemStack[] items = inventory.getContents();
+		
 		inventory.clear();
+		for (int i = 0; i < items.length; i++) {
+			ItemStack item = items[i];
+			if (excludedItems.contains(item)) {
+				inventory.setItem(i, item);
+			}
+		}
 		
 		new BukkitRunnable() {
 			int tick = 0;
