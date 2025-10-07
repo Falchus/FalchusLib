@@ -24,8 +24,8 @@ public abstract class InventoryOpenAnimation {
 	 * Plays the animation with automatic scheduling using delayTicks.
 	 */
 	public final void play(Player player, Inventory inventory) {
-		inventory.clear();
 		Bukkit.getScheduler().runTaskLater(plugin, () -> {
+			inventory.clear();
 			animate(player, inventory);
 		}, delayTicks);
     }
