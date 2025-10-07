@@ -29,15 +29,19 @@ public abstract class InventoryOpenAnimation {
 	 * Plays the animation with automatic scheduling using delayTicks.
 	 */
 	public final void play(Player player, Inventory inventory) {
-		ItemStack[] items = inventory.getContents();
-		
+		ItemStack[] contents = inventory.getContents();
 		inventory.clear();
-		for (int i = 0; i < items.length; i++) {
-			ItemStack item = items[i];
+		
+		List<ItemStack> includedItems = new ArrayList<>();
+		for (int i = 0; i < contents.length; i++) {
+			ItemStack item = contents[i];
 			if (excludedItems.contains(item)) {
 				inventory.setItem(i, item);
+			} else {
+				includedItems.add(item);
 			}
 		}
+		ItemStack[] items = includedItems.toArray(new ItemStack[0]);
 		
 		new BukkitRunnable() {
 			int tick = 0;

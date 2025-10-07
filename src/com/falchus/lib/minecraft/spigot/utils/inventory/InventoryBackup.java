@@ -1,4 +1,4 @@
-package com.falchus.lib.minecraft.spigot.utils;
+package com.falchus.lib.minecraft.spigot.utils.inventory;
 
 import java.util.HashMap;
 import java.util.Map;
