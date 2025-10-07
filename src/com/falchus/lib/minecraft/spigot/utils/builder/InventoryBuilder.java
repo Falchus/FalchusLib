@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.falchus.lib.interfaces.consumer.TriConsumer;
 import com.falchus.lib.minecraft.spigot.utils.ItemUtils;
+import com.falchus.lib.minecraft.spigot.utils.inventory.animation.open.InventoryOpenAnimation;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -28,8 +29,8 @@ public class InventoryBuilder {
     private final int size;
     private final List<ItemUtils.InventoryItem> items = new ArrayList<>();
     private TriConsumer<Player, ItemStack, InventoryClickEvent> globalClickListener;
-    
     private ItemStack filler;
+    private InventoryOpenAnimation openAnimation;
 
     /**
      * Creates a new InventoryBuilder with a title and size.
@@ -63,6 +64,14 @@ public class InventoryBuilder {
         ItemStack itemWithUUID = ItemUtils.setUUID(item, uuid);
         ItemUtils.itemActionsInventory.put(uuid, onClick);
         items.add(new ItemUtils.InventoryItem(slot, itemWithUUID, null));
+        return this;
+    }
+    
+    /**
+     * Sets the animation to play when opening the inventory.
+     */
+    public InventoryBuilder setOpenAnimation(@NonNull InventoryOpenAnimation openAnimation) {
+    	this.openAnimation = openAnimation;
         return this;
     }
     
@@ -115,6 +124,33 @@ public class InventoryBuilder {
     public InventoryBuilder fill() {
         this.filler = new ItemBuilder(Material.STAINED_GLASS_PANE).setName("§r").setDurability((short) 7).build();
         return this;
+    }
+    
+    /**
+     * Opens the inventory for the given player.
+     */
+    public void open(Player player) {
+    	Inventory inventory = build();
+    	player.openInventory(inventory);
+    	
+    	if (openAnimation != null) {
+    		openAnimation.play(player, inventory);
+    	}
+    }
+    
+    /**
+     * Opens the inventory pages for the given player.
+     */
+    public void openPage(Player player, int page) {
+    	List<Inventory> pages = buildPages();
+    	if (pages.isEmpty()) return;
+    	
+    	Inventory inventory = pages.get(page);
+    	player.openInventory(inventory);
+    	
+    	if (openAnimation != null) {
+    		openAnimation.play(player, inventory);
+    	}
     }
 
     /**
