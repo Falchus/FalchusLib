@@ -16,7 +16,7 @@ import lombok.Getter;
 public abstract class InventoryOpenAnimation {
 	
 	protected final FalchusLibMinecraftSpigot plugin = FalchusLibMinecraftSpigot.getInstance();
-	protected int delayTicks = 1;
+	protected int delayTicks = 2;
 	protected List<ItemStack> excludedItems = new ArrayList<>();
 	
 	/**
