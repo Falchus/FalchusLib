@@ -1,5 +1,6 @@
 package com.falchus.lib.minecraft.spigot.utils.inventory.animation.open;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -43,7 +44,13 @@ public abstract class InventoryOpenAnimation {
 					return;
 				}
 				
-				animate(player, inventory, items, tick);
+				ItemStack item = items[tick];
+				boolean skip = item == null
+						|| item.getType() == Material.AIR
+						|| (item.hasItemMeta() && (item.getItemMeta().getDisplayName().equals("§r") || item.getItemMeta().getDisplayName().isEmpty()));
+				if (!skip) {
+					animate(player, inventory, items, tick);	
+				}
 				tick++;
 			}
 		}.runTaskTimer(plugin, 0, delayTicks);
