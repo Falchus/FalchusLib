@@ -1,6 +1,5 @@
 package com.falchus.lib.minecraft.spigot.utils.inventory.animation.open;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -13,7 +12,7 @@ import lombok.Getter;
 public abstract class InventoryOpenAnimation {
 	
 	protected final FalchusLibMinecraftSpigot plugin = FalchusLibMinecraftSpigot.getInstance();
-	protected int delayTicks = 1;
+	protected int delayTicks = 2;
 	
 	/**
 	 * Called to implement animation logic.
@@ -27,9 +26,6 @@ public abstract class InventoryOpenAnimation {
 	public final void play(Player player, Inventory inventory) {
 		ItemStack[] items = inventory.getContents();
 		inventory.clear();
-		
-		Bukkit.getScheduler().runTaskLater(plugin, () -> {
-			animate(player, inventory, items);
-		}, delayTicks);
+		animate(player, inventory, items);
     }
 }
