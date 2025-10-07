@@ -7,9 +7,12 @@ import org.bukkit.inventory.ItemStack;
 
 import com.falchus.lib.minecraft.spigot.utils.inventory.animation.open.InventoryOpenAnimation;
 
-public class ItemAppearAnimation extends InventoryOpenAnimation {
+/**
+ * Fills the items in order.
+ */
+public class ItemFillAnimation extends InventoryOpenAnimation {
 	
-	public ItemAppearAnimation(int delayTicks) {
+	public ItemFillAnimation(int delayTicks) {
 		this.delayTicks = delayTicks;
 	}
 	
