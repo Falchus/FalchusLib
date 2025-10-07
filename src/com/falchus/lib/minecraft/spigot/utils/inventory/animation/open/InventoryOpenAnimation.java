@@ -52,9 +52,13 @@ public abstract class InventoryOpenAnimation {
 				}
 				
 				ItemStack item = items[tick];
-				if (!excludedItems.contains(item)) {
-					animate(player, inventory, items, tick);
+				if (excludedItems.contains(item)) {
+					tick++;
+					run();
+					return;
 				}
+				
+				animate(player, inventory, items, tick);
 				tick++;
 			}
 		}.runTaskTimer(plugin, 0, delayTicks);
