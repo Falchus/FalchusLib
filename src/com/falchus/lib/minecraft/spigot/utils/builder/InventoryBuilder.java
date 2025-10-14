@@ -27,6 +27,7 @@ public class InventoryBuilder {
 
     private final String title;
     private final int size;
+    private boolean dynamicSize = false;
     private final List<ItemUtils.InventoryItem> items = new ArrayList<>();
     private TriConsumer<Player, ItemStack, InventoryClickEvent> globalClickListener;
     private ItemStack filler;
@@ -38,6 +39,15 @@ public class InventoryBuilder {
     public InventoryBuilder(@NonNull String title, @NonNull Integer size) {
         this.title = title;
         this.size = size;
+    }
+    
+    /**
+     * When enabled, the inventory size auto-adjusts to the number of items
+     * but never exceeds the initially set size.
+     */
+    public InventoryBuilder dynamicSize(boolean dynamicSize) {
+    	this.dynamicSize = dynamicSize;
+    	return this;
     }
 
     /**
@@ -205,7 +215,20 @@ public class InventoryBuilder {
      * Builds and returns the final {@link Inventory}.
      */
     private Inventory buildInventory(List<ItemUtils.InventoryItem> items, String inventoryTitle, int inventorySize) {
-    	Inventory inventory = Bukkit.createInventory(null, inventorySize, inventoryTitle);
+        int itemCount = items.size();
+        int size = inventorySize;
+        
+        if (dynamicSize) {
+            size = ((itemCount + 8) / 9) * 9;
+            if (filler != null) {
+            	size += 9;
+            }
+            if (size > inventorySize) {
+            	size = inventorySize;
+            }
+        }
+
+        Inventory inventory = Bukkit.createInventory(null, size, inventoryTitle);
     	
     	int autoSlot = 0;
     	for (ItemUtils.InventoryItem item : items) {
