@@ -145,7 +145,7 @@ public class LabyMod {
 	 *  0% - Disabled
 	 * 50% - Fully blind
 	 */
-	public void sendCineScope(@NonNull UUID uuid, int coveragePercent, long duration) {
+	public static void sendCineScope(@NonNull UUID uuid, int coveragePercent, long duration) {
 	    JsonObject object = new JsonObject();
 
 	    // Cinescope height (0% - 50%)
