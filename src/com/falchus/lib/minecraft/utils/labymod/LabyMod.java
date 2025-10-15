@@ -8,7 +8,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import lombok.NonNull;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class LabyMod {
 
 	/**
