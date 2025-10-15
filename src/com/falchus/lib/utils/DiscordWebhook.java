@@ -9,10 +9,11 @@ import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 /**
+ * @deprecated since 1.0.0, use JDA instead!
  * Utility class for sending messages to Discord webhooks.
  */
 @UtilityClass
-@Deprecated
+@Deprecated(since = "1.0.0")
 public class DiscordWebhook {
 
 	/**

@@ -139,4 +139,22 @@ public class LabyMod {
 	    // Send to LabyMod using the API
 	    LabyModProtocol.sendMessage(uuid, "server_switch", object);
 	}
+	
+	/**
+	 * Just send this packet to set the cinescope coverage
+	 *  0% - Disabled
+	 * 50% - Fully blind
+	 */
+	public void sendCineScope(@NonNull UUID uuid, int coveragePercent, long duration) {
+	    JsonObject object = new JsonObject();
+
+	    // Cinescope height (0% - 50%)
+	    object.addProperty("coverage", coveragePercent);
+
+	    // Duration
+	    object.addProperty("duration", duration);
+
+	    // Send to LabyMod using the API
+	    LabyModProtocol.sendMessage(uuid, "cinescopes", object);
+	}
 }
