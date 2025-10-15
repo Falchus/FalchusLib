@@ -85,6 +85,11 @@
 		<version>4.0.0-RC11.2</version>
 		<scope>provided</scope>
 	</dependency>
+	<dependency>
+		<groupId>eu.cloudnetservice.cloudnet</groupId>
+		<artifactId>syncproxy-impl</artifactId>
+		<version>4.0.0-RC14</version>
+	</dependency>
   </dependencies>
   
   <build>
@@ -117,6 +122,20 @@
 					</path>
 				</annotationProcessorPaths>
 			</configuration>
+		</plugin>
+		
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-shade-plugin</artifactId>
+			<version>3.6.1</version>
+			<executions>
+				<execution>
+					<phase>package</phase>
+					<goals>
+						<goal>shade</goal>
+					</goals>
+				</execution>
+			</executions>
 		</plugin>
     </plugins>
   </build>
