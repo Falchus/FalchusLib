@@ -1,8 +1,8 @@
 package com.falchus.lib.minecraft.spigot.player.elements.impl;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 import org.bukkit.Bukkit;
@@ -21,7 +21,7 @@ import lombok.NonNull;
  */
 public class Chat extends PlayerElement implements Listener {
 
-	private final Map<UUID, String> prefix = new HashMap<>();
+	private final Map<UUID, String> prefix = new ConcurrentHashMap<>();
 	private boolean registered = false;
 	
 	/**

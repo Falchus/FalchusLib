@@ -4,10 +4,10 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import com.falchus.lib.minecraft.spigot.player.elements.PlayerElement;
+import com.falchus.lib.minecraft.spigot.utils.PlayerUtils;
 
 import lombok.NonNull;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
@@ -44,7 +44,7 @@ public class Tablist extends PlayerElement {
             return;
         }
 
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        PlayerUtils.sendPacket(player, packet);
         player.setPlayerListName(name);
 	}
 	
