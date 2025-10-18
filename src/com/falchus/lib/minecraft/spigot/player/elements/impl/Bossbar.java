@@ -25,9 +25,10 @@ import net.minecraft.server.v1_8_R3.WorldServer;
  */
 public class Bossbar extends PlayerElement {
 
-	private final Map<UUID, EntityWither> withers = new HashMap<>();
+    private final Map<UUID, EntityWither> withers = new HashMap<>();
     private final Map<UUID, Location> lastLocations = new HashMap<>();
     private final Map<UUID, String> lastMessages = new HashMap<>();
+    private final Map<UUID, Float> lastProgress = new HashMap<>();
     
 	/**
 	 * Constructs a new Bossbar.
@@ -41,35 +42,42 @@ public class Bossbar extends PlayerElement {
 	 */
 	public void send(@NonNull String message) {
 	    UUID uuid = player.getUniqueId();
+        Location eye = player.getEyeLocation().clone();
+        Location location = eye.add(eye.getDirection().multiply(45));
+
+        float yaw = eye.getYaw();
+        float pitch = Math.max(-15, Math.min(15, eye.getPitch()));
+
 	    EntityWither wither = withers.get(uuid);
-	    Location location = player.getLocation().add(player.getLocation().getDirection().multiply(90));
-
 	    if (wither == null) {
-	        WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-	        wither = new EntityWither(world);
-	        wither.setInvisible(true);
-	        wither.setHealth(wither.getMaxHealth());
-	        withers.put(uuid, wither);
+            WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
+            wither = new EntityWither(world);
+            wither.setInvisible(true);
+            wither.setHealth(wither.getMaxHealth());
+            withers.put(uuid, wither);
 
-	        wither.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+	        wither.setLocation(location.getX(), location.getY(), location.getZ(), yaw, pitch);
 	        PlayerUtils.sendPacket(player, new PacketPlayOutSpawnEntityLiving(wither));
 	    } else {
-	        Location lastLocation = lastLocations.get(uuid);
-	        if (lastLocation == null || location.distanceSquared(lastLocation) > 0.01) {
-	            wither.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
-	            PlayerUtils.sendPacket(player, new PacketPlayOutEntityTeleport(wither));
-	        }
+            Location last = lastLocations.get(uuid);
+            boolean moved = last == null || location.distanceSquared(last) > 4;
+            boolean rotated = last != null && (Math.abs(yaw - last.getYaw()) > 2 || Math.abs(pitch - last.getPitch()) > 2);
+
+            if (moved || rotated) {
+                wither.setLocation(location.getX(), location.getY(), location.getZ(), yaw, pitch);
+                PlayerUtils.sendPacket(player, new PacketPlayOutEntityTeleport(wither));
+            }
 	    }
 
-	    String lastMessage = lastMessages.get(uuid);
-	    if (!message.equals(lastMessage)) {
-	        wither.setCustomName(message);
-	        wither.setCustomNameVisible(true);
-	        PlayerUtils.sendPacket(player, new PacketPlayOutEntityMetadata(wither.getId(), wither.getDataWatcher(), true));
-	    }
+        String lastMessage = lastMessages.get(uuid);
+        if (!message.equals(lastMessage)) {
+            wither.setCustomName(message);
+            wither.setCustomNameVisible(true);
+            PlayerUtils.sendPacket(player, new PacketPlayOutEntityMetadata(wither.getId(), wither.getDataWatcher(), true));
+        }
 
-	    lastLocations.put(uuid, location);
-	    lastMessages.put(uuid, message);
+        lastLocations.put(uuid, location);
+        lastMessages.put(uuid, message);
 	}
 	
 	/**
@@ -89,12 +97,14 @@ public class Bossbar extends PlayerElement {
 	public void remove() {
 		super.remove();
 		
-		EntityWither wither = withers.remove(player.getUniqueId());
-        lastLocations.remove(player.getUniqueId());
-        lastMessages.remove(player.getUniqueId());
-		if (wither != null) {
-			PlayerUtils.sendPacket(player, new PacketPlayOutEntityDestroy(wither.getId()));
-		}
+        UUID uuid = player.getUniqueId();
+        EntityWither wither = withers.remove(uuid);
+        lastLocations.remove(uuid);
+        lastMessages.remove(uuid);
+        lastProgress.remove(uuid);
+        if (wither != null) {
+            PlayerUtils.sendPacket(player, new PacketPlayOutEntityDestroy(wither.getId()));
+        }
 	}
 	
 	/**
@@ -102,13 +112,15 @@ public class Bossbar extends PlayerElement {
 	 */
 	public void setProgress(@NonNull Double progress) {
         EntityWither wither = withers.get(player.getUniqueId());
-        if (wither != null) {
-            float max = wither.getMaxHealth();
-            float newHealth = (float) Math.max(1, Math.min(max, progress * max));
-            if (newHealth != wither.getHealth()) {
-                wither.setHealth(newHealth);
-                PlayerUtils.sendPacket(player, new PacketPlayOutEntityMetadata(wither.getId(), wither.getDataWatcher(), true));
-            }
+        if (wither == null) return;
+
+        float max = wither.getMaxHealth();
+        float newHealth = (float) Math.max(1, Math.min(max, progress * max));
+        Float last = lastProgress.get(player.getUniqueId());
+        if (last == null || Math.abs(last - newHealth) > 0.01f) {
+            wither.setHealth(newHealth);
+            PlayerUtils.sendPacket(player, new PacketPlayOutEntityMetadata(wither.getId(), wither.getDataWatcher(), true));
+            lastProgress.put(player.getUniqueId(), newHealth);
         }
 	}
 }
