@@ -1,6 +1,5 @@
 package com.falchus.lib.minecraft.utils;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,8 +11,8 @@ import eu.cloudnetservice.driver.service.ServiceConfiguration;
 import eu.cloudnetservice.driver.service.ServiceCreateResult;
 import eu.cloudnetservice.driver.service.ServiceInfoSnapshot;
 import eu.cloudnetservice.modules.bridge.BridgeServiceHelper;
-import eu.cloudnetservice.modules.bridge.player.CloudPlayer;
 import eu.cloudnetservice.modules.bridge.player.PlayerManager;
+import eu.cloudnetservice.modules.bridge.player.PlayerProvider;
 import eu.cloudnetservice.wrapper.holder.ServiceInfoHolder;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
@@ -66,15 +65,7 @@ public class CloudNet {
 	 * Gets the player count for the group.
 	 */
 	public static int getPlayerCountFromGroup(String group) {
-		Collection<CloudPlayer> players = playerManager.onlinePlayers().players();
-		Collection<ServiceInfoSnapshot> services = cloudServiceProvider.servicesByGroup(group);
-		int playerCount = 0;
-
-		for (ServiceInfoSnapshot service : services) {
-			playerCount += players.stream()
-									.filter(player -> player.connectedService().serviceId().equals(service.serviceId()))
-									.count();
-		}
-		return playerCount;
+		PlayerProvider playerProvider = playerManager.groupOnlinePlayers(group);
+		return playerProvider.count();
 	}
 }
