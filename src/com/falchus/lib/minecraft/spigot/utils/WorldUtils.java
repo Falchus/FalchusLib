@@ -29,7 +29,7 @@ public class WorldUtils {
 	/**
 	 * Gets world biomes.
 	 */
-	public static BiomeBase[] getWorldBiomes(World world) {
+	public static BiomeBase[] getWorldBiomes(@NonNull World world) {
 		try {
 			WorldServer nmsWorld = ((CraftWorld) world).getHandle();
 			WorldChunkManager worldChunkManager = nmsWorld.getWorldChunkManager();
