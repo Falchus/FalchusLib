@@ -60,7 +60,7 @@ public class Bossbar extends PlayerElement {
 	        PlayerUtils.sendPacket(player, new PacketPlayOutSpawnEntityLiving(wither));
 	    } else {
             Location last = lastLocations.get(uuid);
-            boolean moved = last == null || location.distanceSquared(last) > 4;
+            boolean moved = last == null || !last.getWorld().equals(location.getWorld()) || location.distanceSquared(last) > 4;
             boolean rotated = last != null && (Math.abs(yaw - last.getYaw()) > 2 || Math.abs(pitch - last.getPitch()) > 2);
 
             if (moved || rotated) {
