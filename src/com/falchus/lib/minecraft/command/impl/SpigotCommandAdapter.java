@@ -1,17 +1,23 @@
 package com.falchus.lib.minecraft.command.impl;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 
 import com.falchus.lib.minecraft.command.IBaseCommand;
 
+import lombok.Getter;
 import lombok.NonNull;
 
 /**
  * Abstract adapter for Spigot commands.
  */
-public abstract class SpigotCommandAdapter implements IBaseCommand, CommandExecutor {
+@Getter
+public abstract class SpigotCommandAdapter implements IBaseCommand, CommandExecutor, TabCompleter {
 
     private final String command;
     private final String[] aliases;
@@ -40,25 +46,10 @@ public abstract class SpigotCommandAdapter implements IBaseCommand, CommandExecu
 		return true;
 	}
 	
-    public String getCommand() {
-        return command;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-    
-    public String[] getAliases() {
-        return aliases;
-    }
-    
-    public String getNoPermissionMessage() {
-    	return noPermissionMessage;
-    }
-    
-    public String getUsageMessage() {
-    	return usageMessage;
-    }
-    
-    public abstract void executeCommand(Object sender, String[] args);
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+		if (!hasPermission(sender)) return Collections.emptyList();
+		List<String> list = tabComplete(sender, args);
+		return list != null ? list : Collections.emptyList();
+	}
 }

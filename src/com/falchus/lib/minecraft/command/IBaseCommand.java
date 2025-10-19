@@ -1,5 +1,8 @@
 package com.falchus.lib.minecraft.command;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.falchus.lib.minecraft.FalchusLibMinecraft;
 import com.falchus.lib.minecraft.enums.Software;
 
@@ -39,6 +42,13 @@ public interface IBaseCommand {
      * Executes the command logic.
      */
     void executeCommand(@NonNull Object sender, @NonNull String[] args);
+    
+    /**
+     * Tab completion.
+     */
+    default List<String> tabComplete(@NonNull Object sender, @NonNull String[] args) {
+    	return Collections.emptyList();
+    }
 
     /**
      * Checks if the sender has the permission required to execute this command.
