@@ -9,44 +9,45 @@ import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 /**
+ * @deprecated since 1.1.4, use {@link CloudNet} instead!
  * Utility class for Spigot-specific CloudNet operations.
  */
 @UtilityClass
+@Deprecated(since = "1.1.4")
 public class CloudNetSpigot {
 
 	/**
 	 * Sets the "extra" field for the current service.
 	 */
 	public static void setExtra(@NonNull String newExtra) {
-		CloudNet.bridgeServiceHelper.extra().set(newExtra);
+		CloudNet.setExtra(newExtra);
 	}
 	
 	/**
 	 * Sets the MOTD for the current service.
 	 */
 	public static void setMotd(@NonNull String newMotd) {
-		CloudNet.bridgeServiceHelper.motd().set(newMotd);
+		CloudNet.setMotd(newMotd);
 	}
 	
 	/**
 	 * Changes the service state to "ingame" and publishes the update.
 	 */
 	public static void changeToIngame() {
-		CloudNet.bridgeServiceHelper.changeToIngame();
-        CloudNet.publishServiceInfoUpdate();
+		CloudNet.changeToIngame();
 	}
 	
 	/**
 	 * Connects a player to a specified task using the given selector type.
 	 */
 	public static void connectPlayerToTask(@NonNull Player player, @NonNull String task, @NonNull ServerSelectorType serverSelectorType) {
-		CloudNet.playerManager.playerExecutor(player.getUniqueId()).connectToTask(task, serverSelectorType);
+		CloudNet.connectPlayerToTask(player.getUniqueId(), task, serverSelectorType);
 	}
 	
 	/**
 	 * Connects a player to a specified service.
 	 */
 	public static void connectPlayerToService(@NonNull Player player, @NonNull String service) {
-		CloudNet.playerManager.playerExecutor(player.getUniqueId()).connect(service);
+		CloudNet.connectPlayerToService(player.getUniqueId(), service);
 	}
 }
