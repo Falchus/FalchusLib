@@ -1,5 +1,6 @@
 package com.falchus.lib.minecraft.utils;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -67,5 +68,13 @@ public class CloudNet {
 	public static int getPlayerCountFromGroup(String group) {
 		PlayerProvider playerProvider = playerManager.groupOnlinePlayers(group);
 		return playerProvider.count();
+	}
+	
+	/**
+	 * Get services by group
+	 */
+	public static Collection<ServiceInfoSnapshot> getServicesByGroup(String group) {
+		Collection<ServiceInfoSnapshot> services = cloudServiceProvider.servicesByGroup(group);
+		return services;
 	}
 }

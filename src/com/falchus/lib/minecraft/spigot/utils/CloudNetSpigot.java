@@ -42,4 +42,11 @@ public class CloudNetSpigot {
 	public static void connectPlayerToTask(@NonNull Player player, @NonNull String task, @NonNull ServerSelectorType serverSelectorType) {
 		CloudNet.playerManager.playerExecutor(player.getUniqueId()).connectToTask(task, serverSelectorType);
 	}
+	
+	/**
+	 * Connects a player to a specified service.
+	 */
+	public static void connectPlayerToService(@NonNull Player player, @NonNull String service) {
+		CloudNet.playerManager.playerExecutor(player.getUniqueId()).connect(service);
+	}
 }

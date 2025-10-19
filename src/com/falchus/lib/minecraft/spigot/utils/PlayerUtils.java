@@ -229,6 +229,9 @@ public class PlayerUtils {
 	    }
 	}
 	
+	/**
+	 * Adds a EntityPlayer.
+	 */
 	public static void addEntityPlayer(@NonNull Player player, @NonNull EntityPlayer entityPlayer) {
 		PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(
 			EnumPlayerInfoAction.ADD_PLAYER,
@@ -237,6 +240,9 @@ public class PlayerUtils {
 		sendPacket(player, packet);
 	}
 	
+	/**
+	 * Removes a EntityPlayer.
+	 */
 	public static void removeEntityPlayer(@NonNull Player player, @NonNull EntityPlayer entityPlayer) {
 		PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(
 			EnumPlayerInfoAction.REMOVE_PLAYER,
