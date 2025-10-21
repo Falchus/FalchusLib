@@ -10,7 +10,6 @@ import eu.cloudnetservice.driver.provider.CloudServiceProvider;
 import eu.cloudnetservice.driver.registry.ServiceRegistry;
 import eu.cloudnetservice.driver.service.ServiceConfiguration;
 import eu.cloudnetservice.driver.service.ServiceCreateResult;
-import eu.cloudnetservice.driver.service.ServiceId;
 import eu.cloudnetservice.driver.service.ServiceInfoSnapshot;
 import eu.cloudnetservice.modules.bridge.BridgeServiceHelper;
 import eu.cloudnetservice.modules.bridge.player.PlayerManager;
@@ -32,7 +31,6 @@ public class CloudNet {
 	public static final PlayerManager playerManager = InjectionLayer.ext().instance(ServiceRegistry.class).defaultInstance(PlayerManager.class);
 	public static final CloudServiceFactory cloudServiceFactory = InjectionLayer.ext().instance(CloudServiceFactory.class);
 	public static final CloudServiceProvider cloudServiceProvider = InjectionLayer.ext().instance(CloudServiceProvider.class);
-    public static final ServiceConfiguration serviceConfiguration = InjectionLayer.ext().instance(ServiceConfiguration.class);
 
 	/**
 	 * Broadcasts a message to all players globally.
@@ -115,13 +113,5 @@ public class CloudNet {
      */
     public static void connectPlayerToService(@NonNull UUID uuid, @NonNull String service) {
         playerManager.playerExecutor(uuid).connect(service);
-    }
-
-    /**
-     * Gets the id for the current service.
-     */
-    public static ServiceId getServiceId() {
-        ServiceId id = serviceConfiguration.serviceId();
-        return id;
     }
 }
