@@ -66,16 +66,32 @@ public class CloudNet {
 	/**
 	 * Gets the player count for the group.
 	 */
-	public static int getPlayerCountFromGroup(String group) {
+	public static int getPlayerCountFromGroup(@NonNull String group) {
 		PlayerProvider playerProvider = playerManager.groupOnlinePlayers(group);
+		return playerProvider.count();
+	}
+	
+	/**
+	 * Gets the player count for the task.
+	 */
+	public static int getPlayerCountFromTask(@NonNull String task) {
+		PlayerProvider playerProvider = playerManager.taskOnlinePlayers(task);
 		return playerProvider.count();
 	}
 	
 	/**
 	 * Get services by group
 	 */
-	public static Collection<ServiceInfoSnapshot> getServicesByGroup(String group) {
+	public static Collection<ServiceInfoSnapshot> getServicesByGroup(@NonNull String group) {
 		Collection<ServiceInfoSnapshot> services = cloudServiceProvider.servicesByGroup(group);
+		return services;
+	}
+	
+	/**
+	 * Get services by task
+	 */
+	public static Collection<ServiceInfoSnapshot> getServicesByTask(@NonNull String task) {
+		Collection<ServiceInfoSnapshot> services = cloudServiceProvider.servicesByTask(task);
 		return services;
 	}
 
