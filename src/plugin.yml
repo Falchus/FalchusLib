@@ -5,4 +5,5 @@ main: com.falchus.lib.minecraft.spigot.FalchusLibMinecraftSpigot
 author: Falchus
 website: lib.falchus.com
 
+load: startup
 softdepend: [LuckPerms]
